@@ -5,7 +5,24 @@ public class CountFpsSystem : ISystem
     {
         var fpsCounters = ecs.GetComponents<FpsCounter>();
 
-        Parallel.For(0, fpsCounters.Count, i =>
+        // Parallel.For(0, fpsCounters.Count, i =>
+        // {
+        //     var (entityId, fpsCounter) = fpsCounters[i];
+
+        //     fpsCounter.counter += dt;
+        //     fpsCounter.fps += 1;
+
+        //     if (fpsCounter.counter >= fpsCounter.delay)
+        //     {
+        //         fpsCounter.lastFps = fpsCounter.fps;
+        //         fpsCounter.counter = 0;
+        //         fpsCounter.fps = 0;
+        //     }
+
+        //     fpsCounters.Add(entityId, fpsCounter); 
+        // });
+
+        for(int i = 0; i < fpsCounters.Count; i++)
         {
             var (entityId, fpsCounter) = fpsCounters[i];
 
@@ -14,12 +31,12 @@ public class CountFpsSystem : ISystem
 
             if (fpsCounter.counter >= fpsCounter.delay)
             {
-                Console.WriteLine("FPS : " + fpsCounter.fps);
+                fpsCounter.lastFps = fpsCounter.fps;
                 fpsCounter.counter = 0;
                 fpsCounter.fps = 0;
             }
 
-            fpsCounters.Add(entityId, fpsCounter); // réécriture obligatoire pour struct
-        });
+            fpsCounters.Add(entityId, fpsCounter); 
+        }
     }
 }

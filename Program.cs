@@ -9,11 +9,10 @@ class Program
 
 
     static void Main()
-    {
+    {   
         Raylib.InitWindow(800, 600, "P1");
 
         var ecs = new ECSManager();
-        
         CreatePlayer.Init(ecs);
         ecs.AddSystem(new CountFpsSystem());
 
@@ -21,9 +20,10 @@ class Program
         {
             float dt = Raylib.GetFrameTime();
             ecs.UpdateSystems(dt);
+            string FpsDraw = "FPS: " + ecs.GetComponents<FpsCounter>()[0].component.lastFps;
             Raylib.BeginDrawing();
             Raylib.ClearBackground(Color.Black);
-            Raylib.DrawText("Hello", 200, 200, 30, Color.DarkPurple);
+            Raylib.DrawText(FpsDraw, 200, 200, 30, Color.DarkPurple);
             Raylib.EndDrawing();
         }
 
